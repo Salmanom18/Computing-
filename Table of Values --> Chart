@@ -1,0 +1,21 @@
+import java.lang.Math; 
+
+class Main {
+  public static void main(String[] args) {
+
+    /******
+      Enter your code below this line 
+    ******/
+    int[] radii = {  1 ,   2 ,   3 ,   4 ,   5 };
+    double cylinderHeight = 5.0;
+    System.out.println(" radius  | circle  | sphere  | cylinder");
+    System.out.println("---------+---------+---------+---------");
+    for (int r : radii) {
+      double circleArea = Math.PI * r * r;
+      double sphereVolume = (4.0 / 3.0) * Math.PI * Math.pow(r, 3);
+      double cylinderVolume = Math.PI * r * r * cylinderHeight; 
+      System.out.printf("  %6.2f | %7.2f | %7.2f | %7.2f\n", (double) r, 
+                        circleArea, sphereVolume, cylinderVolume);
+    }
+  }
+}
