@@ -1,0 +1,114 @@
+import java.util.scanner; //input
+import java.io; //output
+class creditCards {
+  public static void main(String[] args) {
+    String index = "";
+    /*this declares a variable to store the data from the
+      file*/
+    int random = 0;
+     /*this declares the integer random to count the number
+      of people later on*/
+    try {
+      File blah = new File("ledger.dat");
+        /*this declares a file we can use and alter*/
+      Scanner random2 = new Scanner(blah);
+        /*this scans and reads from the file blah*/
+     
+      while (random2.hasNextLine()) {
+        /*while the file has next lines, count for the number of
+        people, NumPeop, will increase and the lines will be
+        added to a string to store in the program */
+        random++;
+          /*increases the count for the number of people*/
+        index = index+ random2.nextLine() + " ";
+          /*this means that all data stored into the string info
+          is separated by a space, for organizational purposes*/
+      }
+      random2.close();
+        /*to prevent file corruption, you have to close the file
+        once you have implemented the code*/
+    } catch (FileNotFoundException e) {
+        /*in case the file is not found, due to an error, you
+        implement a catch exception*/
+      System.out.println("An error occurred.");
+        /*according to the catch program, you print out the
+        error in human readable format to make the reader aware*/
+      e.printStackTrace();
+        /*this will help the reader know where the error
+        happened in the stacks of code*/
+    }
+    String [] data = new String[random];
+      /*this array is meant to store each person's various
+      details*/
+    String [] tokens1 = index.split(" ");
+      /*this splits the information from the different file
+      strings for each person to make it easier to manipulate*/
+    for (int i = 0; i < random; i++) {
+      /*now since the information is split, it would be easier
+      to have them be stored individually in this array */
+      data[i] = tokens1[i];
+    }
+    for (int i = 0; i < random; i++) {
+      for (int j = i + 1; j < random; j++) {
+        if (data[i].compareTo(data[j]) > 0) {
+          String temp = data[i];
+          data[i] = data[j];
+          data[j] = temp;
+           /*this for loop looks over the array called data and
+            sorts each string of information within it
+            alphabetically. It then checks every value and
+            sorts it according to each string's alphabetical
+            last name which is the first letter in each value*/
+        }
+      }
+    }
+    String [] Names = new String[data.length];  
+    /*this is the new array that holds all names*/
+    String [] AcctNum = new String[data.length];
+    /*this is the new array that holds all account numbers*/
+    double [] IniVal = new double[data.length];  
+    /*this is the new array that holds all initial values*/
+    double [] PayAmount = new double[data.length];
+    /*this is the new array that holds all payment amounts*/
+    double [] Bought = new double[data.length];
+    /*this is the new array that holds all purchase
+      quantities*/
+    for (int i = 0; i < data.length; i++) {
+    /*this for loop runs through the code as many times as
+      there are data in the array data*/
+   
+      String [] tokens = data[i].split(",");
+        /*this array splits each person's information through a
+        ",". This helps with organization since it separates
+        all the information*/
+      Names[i] = tokens[1] + " " + tokens[0];
+        /*this helps put the person's full name into array*/
+      AcctNum[i] = tokens[2];
+        /*this puts the account number in array*/
+      IniVal[i] = Double.parseDouble(tokens[3]);
+        /*this puts the initial value in array*/
+      PayAmount[i] = Double.parseDouble(tokens[4]);
+        /*this puts the payment amount value in array*/
+      Bought[i] = Double.parseDouble(tokens[5]);
+        /*this puts the purchase amount in array*/
+    }
+    double [] FinalValue = new double[data.length];
+      /*this array is to store the final value*/
+    for (int i = 0; i < IniVal.length; i++) {
+      FinalValue[i] = (1.00 + (0.28 / 12.00)) * IniVal[i] - PayAmount[i] + Bought[i];
+        /*implementing the interest formula to find the final
+        value using all of the relevant pieces of information*/
+    }
+   
+    System.out.printf("\n%-18.30s  %-10.30s Final Balance\n", "NAME", "ACCT#");
+      /*this printf statement allows us to have all of the
+      subject names in proper columns*/
+    for (int i = 0; i < data.length; i++) {
+      System.out.printf("%-18.30s  %-10.30s $%.2f\n", Names[i], AcctNum[i], FinalValue[i]);
+        /*this printf statement allows us to relate all the
+        necessary information in each column (we have the names
+        in the column "NAME", all the account numbers in the
+        column "ACCT#", etc.*/
+    }                              
+  }
+}
